@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_BRANCH = 'main'
+        GIT_BRANCH = 'master'
         GIT_URL = 'https://git@github.com:uday1487/Amazon.git'
     }
 
