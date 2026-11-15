@@ -2,20 +2,7 @@ pipeline {
 
     agent any
 
-    environment {
-        GIT_BRANCH = 'master'
-        GIT_URL = 'git@github.com:uday1487/Amazon.git'
-         credentialsId: 'github-ssh'
-    }
-
     stages {
-
-        stage('CLONE REPOSITORY') {
-            steps {
-                git branch: "${GIT_BRANCH}",
-                    url: "${GIT_URL}"
-            }
-        }
 
         stage('BUILD AMAZON') {
             when {
@@ -91,6 +78,10 @@ pipeline {
 
         failure {
             echo 'One or more project builds failed!'
+        }
+
+        always {
+            echo 'Pipeline execution completed.'
         }
     }
 }
