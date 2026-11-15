@@ -5,6 +5,7 @@ pipeline {
     environment {
         GIT_BRANCH = 'master'
         GIT_URL = 'git@github.com:uday1487/Amazon.git'
+         credentialsId: 'github-ssh'
     }
 
     stages {
