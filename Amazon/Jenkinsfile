@@ -12,24 +12,17 @@ pipeline {
             }
         }
 
-        stage('Git Checkout') {
-            steps {
-                echo 'Amazon source code checked out'
-            }
-        }
-
-        stage('Maven Build') {
-            steps {
-                dir('Amazon') {
-                    mavenBuild()
-                }
-            }
-        }
-
         stage('Maven Test') {
             steps {
                 dir('Amazon') {
                     mavenTest()
+                }
+            }
+        }
+            stage('Maven Build') {
+            steps {
+                dir('Amazon') {
+                    mavenBuild()
                 }
             }
         }
