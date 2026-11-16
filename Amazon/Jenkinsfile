@@ -1,87 +1,43 @@
+@Library('SharedJenkinsLibrary') _
+
 pipeline {
 
     agent any
 
     stages {
 
-        stage('BUILD AMAZON') {
-            when {
-                expression { fileExists('Amazon/pom.xml') }
+        stage('Welcome') {
+            steps {
+                hello('Amazon Project')
             }
+        }
+
+        stage('Git Checkout') {
+            steps {
+                echo 'Amazon source code checked out'
+            }
+        }
+
+        stage('Maven Build') {
             steps {
                 dir('Amazon') {
-                    sh 'mvn clean install'
+                    mavenBuild()
                 }
             }
         }
 
-        stage('BUILD SKY') {
-            when {
-                expression { fileExists('SKY/pom.xml') }
-            }
+        stage('Maven Test') {
             steps {
-                dir('SKY') {
-                    sh 'mvn clean install'
+                dir('Amazon') {
+                    mavenTest()
                 }
             }
         }
 
-        stage('BUILD SPRINGCORE') {
-            when {
-                expression { fileExists('SpringCore/pom.xml') }
-            }
+        stage('Success') {
             steps {
-                dir('SpringCore') {
-                    sh 'mvn clean install'
-                }
+                echo 'Amazon Pipeline Completed Successfully'
             }
-        }
-
-        stage('BUILD SPRINGDEMO') {
-            when {
-                expression { fileExists('SpringDemo/pom.xml') }
-            }
-            steps {
-                dir('SpringDemo') {
-                    sh 'mvn clean install'
-                }
-            }
-        }
-
-        stage('BUILD SPRINGNEW') {
-            when {
-                expression { fileExists('SpringNew/pom.xml') }
-            }
-            steps {
-                dir('SpringNew') {
-                    sh 'mvn clean install'
-                }
-            }
-        }
-
-        stage('BUILD TEST') {
-            when {
-                expression { fileExists('Test/pom.xml') }
-            }
-            steps {
-                dir('Test') {
-                    sh 'mvn clean install'
-                }
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'All available Maven projects built successfully!'
-        }
-
-        failure {
-            echo 'One or more project builds failed!'
-        }
-
-        always {
-            echo 'Pipeline execution completed.'
         }
     }
 }
