@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+        stage('Amazon Build') {
+            steps {
+                dir('Amazon') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('SKY Build') {
+            steps {
+                dir('SKY') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('SpringCore Build') {
+            steps {
+                dir('SpringCore') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}
