@@ -1,35 +1,36 @@
-@Library('SharedJenkinsLibrary') _
-
 pipeline {
 
     agent any
 
     stages {
 
-        stage('Welcome') {
-            steps {
-                hello('Amazon Project')
-            }
-        }
-
-        stage('Maven Test') {
+        stage('Amazon Build') {
             steps {
                 dir('Amazon') {
-                    mavenTest()
+                    sh 'mvn clean install'
                 }
             }
         }
-            stage('Maven Build') {
+
+        stage('SKY Build') {
             steps {
-                dir('Amazon') {
-                    mavenBuild()
+                dir('SKY') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('SpringCore Build') {
+            steps {
+                dir('SpringCore') {
+                    sh 'mvn clean install'
                 }
             }
         }
 
         stage('Success') {
             steps {
-                echo 'Amazon Pipeline Completed Successfully'
+                echo 'All projects installed successfully'
             }
         }
     }
